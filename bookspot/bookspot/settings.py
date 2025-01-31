@@ -83,8 +83,28 @@ DATABASES = {
     }
 }
 
-
+# Specifies the custom user model to be used in the application.
 AUTH_USER_MODEL = 'app.Usuario'
+
+# Defines the list of authentication backends to be used:
+# 1. Custom email-based authentication backend.
+# 2. Default Django authentication backend.
+AUTHENTICATION_BACKENDS = [
+    'app.backends.EmailAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+# Configures Django REST Framework (DRF) settings:
+# 1. Sets default authentication to session-based authentication.
+# 2. Enforces that only authenticated users are allowed by default.
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -120,7 +140,21 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+# settings.py
+
+import os
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+
+# Location where Django will look for static files
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'app/static'),
+]
+
+# Location where Django will collect static files for production
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
