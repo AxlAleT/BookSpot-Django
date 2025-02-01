@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'simple_history',
-    'app',
+    'core',
+    'db_init',
+    'user_auth',
 ]
 
 MIDDLEWARE = [
@@ -84,13 +86,13 @@ DATABASES = {
 }
 
 # Specifies the custom user model to be used in the application.
-AUTH_USER_MODEL = 'app.Usuario'
+AUTH_USER_MODEL = 'core.Usuario'
 
 # Defines the list of authentication backends to be used:
 # 1. Custom email-based authentication backend.
 # 2. Default Django authentication backend.
 AUTHENTICATION_BACKENDS = [
-    'app.backends.EmailAuthBackend',
+    'user_auth.backends.EmailAuthBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
@@ -100,9 +102,6 @@ AUTHENTICATION_BACKENDS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
     ]
 }
 
@@ -149,7 +148,7 @@ STATIC_URL = '/static/'
 
 # Location where Django will look for static files
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'app/static'),
+    os.path.join(BASE_DIR, 'user_auth/static'),
 ]
 
 # Location where Django will collect static files for production
