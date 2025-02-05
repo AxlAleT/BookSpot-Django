@@ -22,12 +22,13 @@
                     <div class="profile-image mx-auto mb-3">
                         <img src="{% static 'login/img/icono_perfil.png' %}" alt="Perfil">
                     </div>
-                    <form class="login-form">
+                    <form class="login-form" method="POST">
+                        {% csrf_token %}
                         <div class="mb-3">
-                            <input type="email" class="form-control" placeholder="Usuario" required id="email">
+                            <input type="email" class="form-control" placeholder="Usuario" required id="email" name="correo_electronico">
                         </div>
                         <div class="mb-3">
-                            <input type="password" class="form-control" placeholder="Contraseña" required id="password">
+                            <input type="password" class="form-control" placeholder="Contraseña" required id="password" name="password">
                         </div>
                         <button type="submit" class="btn btn-warning w-100">Iniciar Sesión</button>
                     </form>

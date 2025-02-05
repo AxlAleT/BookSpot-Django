@@ -93,7 +93,6 @@ AUTH_USER_MODEL = 'core.Usuario'
 # 2. Default Django authentication backend.
 AUTHENTICATION_BACKENDS = [
     'user_auth.backends.EmailAuthBackend',
-    'django.contrib.auth.backends.ModelBackend',
 ]
 
 # Configures Django REST Framework (DRF) settings:

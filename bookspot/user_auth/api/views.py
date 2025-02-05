@@ -1,12 +1,18 @@
+from django.contrib.auth import login, logout
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_protect
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django.contrib.auth import login, logout
+from django.contrib.auth import login
+from django.middleware.csrf import get_token
 from .serializers import LoginSerializer
-from django.shortcuts import render
-
 
 class loginAPIView(APIView):
+    def get(self, request):
+        # Return CSRF token for GET requests
+        return Response({'csrfToken': get_token(request)})
+
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
@@ -28,6 +34,6 @@ class logoutAPIView(APIView):
         logout(request)
         return Response({"mensaje": "Sesión cerrada exitosamente"})
 
-
+@csrf_protect
 def loginRenderView(request):
     return render(request, 'login/login.html')
