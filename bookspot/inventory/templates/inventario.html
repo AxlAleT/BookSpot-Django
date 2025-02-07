@@ -23,14 +23,18 @@
         </div>
         <p>Almacenista</p>
     </div>
+
     <ul class="menu">
-        <li data-section="ventas">
-            <i class="fa-solid fa-money-bill"></i>
-            <span>Ventas</span>
+        <li class="sidebar-footer">
+            <button class="btn btn-outline-light logout-button" onclick="logout()">Cerrar Sesión</button>
         </li>
         <li data-section="roles">
             <i class="fa-solid fa-user"></i>
-            <span>Roles y Permisos</span>
+            <span>Administrador</span>
+        </li>
+        <li data-section="ventas">
+            <i class="fa-solid fa-money-bill"></i>
+            <span>Ventas</span>
         </li>
         <li data-section="informes">
             <i class="fa-regular fa-rectangle-list"></i>
@@ -136,5 +140,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <!-- Use Django static for local JS -->
 <script src="{% static 'inventoryScript.js' %}"></script>
+<script src="{% static 'logoutScript.js' %}"></script>
 </body>
 </html>

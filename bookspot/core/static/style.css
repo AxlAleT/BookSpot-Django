@@ -18,6 +18,21 @@ body {
     overflow-y: auto;
 }
 
+.sidebar-footer {
+  text-align: center;
+}
+
+.logout-button {
+  width: 230px; height: 50px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: #333;
+  padding: 8px 0;
+}
+.logout-button:hover {
+  background-color: #f0f0f0;
+}
+
 .profile {
     text-align: center;
     margin-bottom: 20px;
@@ -58,7 +73,7 @@ body {
 .menu li {
     display: flex;
     align-items: center;
-    padding: 15px 10px;
+    padding: 3px 3px;
     width: 100%;
     cursor: pointer;
     transition: background-color 0.3s;
