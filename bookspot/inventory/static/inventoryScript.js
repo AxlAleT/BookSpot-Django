@@ -1,22 +1,8 @@
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
 document.addEventListener("DOMContentLoaded", function() {
     const selectionButtons = document.querySelectorAll(".selection-button");
     const views = document.querySelectorAll(".view");
     const searchInput = document.getElementById("search-input");
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
     // Toggle active view when selection buttons are clicked
     selectionButtons.forEach(button => {
@@ -66,7 +52,8 @@ document.addEventListener("DOMContentLoaded", function() {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "X-CSRFToken": getCookie('csrftoken')
+                "X-CSRFToken": csrftoken
+
             },
             credentials: 'include',
             body: JSON.stringify({ titulo, precio, cantidad_disponible })
@@ -184,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    "X-CSRFToken": getCookie('csrftoken')
+                    "X-CSRFToken": csrftoken
                 },
                 credentials: 'include',
                 body: JSON.stringify({ titulo, precio, cantidad_disponible })
@@ -213,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
-                    "X-CSRFToken": getCookie('csrftoken')
+                    "X-CSRFToken": csrftoken
                 },
                 credentials: 'include'
             })

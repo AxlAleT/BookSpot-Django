@@ -3,14 +3,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import login
-from django.middleware.csrf import get_token
 from .serializers import LoginSerializer
 
 class loginAPIView(APIView):
-    def get(self, request):
-        # Return CSRF token for GET requests
-        return Response({'csrfToken': get_token(request)})
-
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
