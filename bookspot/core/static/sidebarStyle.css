@@ -1,0 +1,142 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100%;
+    background-color: #f0f0f0;
+}
+
+.btn {
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 10px 10px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #ffcc80;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: orange;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 0 10px 10px 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+.profile {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 30px;
+}
+
+.profile-picture {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid orange;
+}
+
+.profile p {
+    font-size: 30px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bold;
+    color: white;
+    margin: 0; /* Remove margin to avoid extra spacing */
+}
+
+.logout-button {
+    width: 100%; /* Makes it adapt to parent width */
+    max-width: 230px; /* Ensures a maximum size */
+    height: 50px;
+    background-color: #fffADA;
+    border: 1px solid #ccc;
+    color: #333;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.logout-button:hover {
+    background-color: #f0f0f0;
+}
+
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.menu li {
+    display: flex;
+    align-items: center;
+    padding: 3px 3px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    color: rgb(0, 0, 0);
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+.menu li:hover {
+    background-color: #ffcc80;
+}
+
+.menu li img.icon {
+    width: 36px;
+    height: 36px;
+    margin-right: 20px;
+}
+
+.menu li i {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.menu li.active {
+    background-color: #ffcc80;
+}
+
+.menu li span {
+    flex: 1;
+    text-align: left;
+    font-size: 26px;
+}
+
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
