@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'core',
     'db_init',
     'user_auth',
+    'inventory',
 ]
 
 MIDDLEWARE = [
@@ -147,7 +148,9 @@ STATIC_URL = '/static/'
 
 # Location where Django will look for static files
 STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'core/static'),
     os.path.join(BASE_DIR, 'user_auth/static'),
+    os.path.join(BASE_DIR, 'inventory/static'),
 ]
 
 # Location where Django will collect static files for production

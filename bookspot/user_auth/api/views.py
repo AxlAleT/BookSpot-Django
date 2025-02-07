@@ -1,6 +1,4 @@
 from django.contrib.auth import login, logout
-from django.shortcuts import render
-from django.views.decorators.csrf import csrf_protect
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -33,7 +31,3 @@ class logoutAPIView(APIView):
     def post(self, request):
         logout(request)
         return Response({"mensaje": "Sesión cerrada exitosamente"})
-
-@csrf_protect
-def loginRenderView(request):
-    return render(request, 'login/login.html')
