@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
 
         const formData = new FormData(loginForm);
-        const csrftoken = document.getElementsByName('csrfmiddlewaretoken').values()
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
         try {
             const response = await fetch('/api/login/', {
@@ -17,7 +17,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: new URLSearchParams(formData)
             });
 
-            // Rest of your existing response handling...
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor');
+            }
+
+            const data = await response.json();
+            if (data.usuario && data.usuario.grupo) {
+                const groupRoutes = {
+                    'almacenista': '/inventory/inventory.html',
+                    // Add more groups here
+                };
+
+                const redirectUrl = groupRoutes[data.usuario.grupo] || '/dashboard.html'; // Default route
+                window.location.href = redirectUrl;
+            } else {
+                throw new Error('Datos de usuario no válidos');
+            }
         } catch (error) {
             console.error('Error al iniciar sesión:', error);
             alert(`Error al iniciar sesión: ${error.message}`);

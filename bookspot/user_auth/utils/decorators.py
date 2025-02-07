@@ -1,7 +1,6 @@
 from django.http import JsonResponse
 from functools import wraps
 
-
 def requiere_grupo(grupo_requerido):
     def decorator(view_func):
         @wraps(view_func)
