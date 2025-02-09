@@ -52,30 +52,30 @@
 
 .search-bar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
 }
 
 .search-bar input {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px 0 0 5px;
-    width: 200px;
+    width: 250px;
+    height: 40px;
     font-size: 16px;
-    flex: 1;
-    border-color: orangered;
     margin-right: -1px;
 }
 
 .search-bar button {
     padding: 10px;
-    border: 1px solid #ddd;
     border-radius: 0 5px 5px 0;
     background-color: orange;
     color: white;
     cursor: pointer;
-    border-color: orangered;
+    font-size: 16px;
+}
+
+.search-bar button i {
+    font-size: 16px;
 }
 
 .search-bar button:hover {
@@ -175,23 +175,53 @@
     cursor: pointer;
 }
 
-/* Sticky header styling */
 .header-bar {
   position: sticky;
   top: 0;
   background: #fff;
-  z-index: 100;  /* Ensure it sits above the table */
+  z-index: 100;
   padding: 10px 15px;
   border-bottom: 1px solid #ccc;
 }
 
-/* Add a right margin to the add button if needed */
 .header-actions button.add {
   margin-right: 10px;
 }
 
-/* Optionally, if your table scrolls, wrap it in a container with scroll */
 .table-container {
-  max-height: calc(100vh - 200px);  /* adjust based on your layout */
+  max-height: calc(100vh - 200px);
   overflow-y: auto;
+}
+
+.header-actions .btn {
+    padding: 10px 20px;
+    margin: 0 5px;
+    font-size: 16px;
+}
+
+.btn.delete, .btn.edit {
+    width: 80px;
+}
+
+.inventory-table th:nth-child(1),
+.inventory-table td:nth-child(1),
+.inventory-table th:nth-child(3),
+.inventory-table td:nth-child(3),
+.inventory-table td:nth-child(4){
+    width: 130px;
+    text-align: center;
+}
+
+.inventory-table td:nth-child(5),
+.inventory-table th:nth-child(5){
+    width: 200px;
+    text-align: center;
+}
+
+.inventory-table td:nth-child(2) {
+    text-align: center;
+}
+
+.inventory-table td {
+    text-align: center;
 }

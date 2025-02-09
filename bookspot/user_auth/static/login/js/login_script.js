@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
 
         const formData = new FormData(loginForm);
-        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const csrftoken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
         try {
             const response = await fetch('/api/login/', {
@@ -24,7 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
             if (data.usuario && data.usuario.grupo) {
                 const groupRoutes = {
-                    'almacenista': '/inventory/inventory.html',
+                    'Almacenista': '/inventory/inventory.html',
+                    'Vendedor': '/sales/sales.html',
                     // Add more groups here
                 };
 

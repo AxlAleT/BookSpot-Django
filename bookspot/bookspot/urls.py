@@ -7,4 +7,5 @@ urlpatterns = [
     path('', lambda request: redirect('login.html', permanent=True)),
     path('', include('user_auth.urls')),
     path('inventory/', include('inventory.urls')),
+    path('sales/', include('sales.urls')),
 ]

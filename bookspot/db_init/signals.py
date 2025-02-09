@@ -1,49 +1,45 @@
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
 from django.contrib.auth.hashers import make_password
-from core.models import Libro, TipoMovimiento, MetodoPago, Grupo, Usuario
+from core.models import Libro, TipoMovimiento, Grupo, Usuario
 
 INITIAL_DATA = {
     'TIPOS_MOVIMIENTO': [
                 {'nombre': 'VPV', 'descripcion': 'Venta en Punto de Venta, relacionado a la venta de un producto en la tienda fisica'},
                 {'nombre': 'APV', 'descripcion': 'Apartado en Punto de Venta, relacionado a un apartado de productos en el punto de venta'},
-                {'nombre': 'RLI', 'descripcion': 'Registro de libro en inventario, registra la entrada de un libro en el inentario'},
+                {'nombre': 'RLI', 'descripcion': 'Registro de libro en inventario, registra la entrada de un libro en el inventario'},
+                {'nombre': 'ELI', 'descripcion': 'Eliminacion de libro en inventario, registra la eliminacion de un libro por un almacenista'},
                 {'nombre': 'ELA', 'descripcion': 'Eliminacion de un apartado, cancelacion'},
                 {'nombre': 'ACV', 'descripcion': 'Apartado Concretado, ahora es una Venta'},
     ],
-    'METODOS_PAGO': [
-                {'nombre': 'TDC', 'descripcion': 'Pago con tarjeta de credito'},
-                {'nombre': 'TDB', 'descripcion': 'Pago con tarjeta de debito'},
-                {'nombre': 'EFE', 'descripcion': 'Pago con efectivo'},
-    ],
     'GRUPOS': [
-                {'nombre': 'admin', 'descripcion': 'Grupo de administradores, con todos los permisos'},
-                {'nombre': 'vendedor', 'descripcion': 'Grupo de vendedores, con permisos limitados'},
-                {'nombre': 'almacenista', 'descripcion': 'Grupo de almacenistas, tienen permisos para hacer operaciones en el inventario'},
+                {'nombre': 'Admin', 'descripcion': 'Grupo de administradores, con todos los permisos'},
+                {'nombre': 'Vendedor', 'descripcion': 'Grupo de vendedores, con permisos limitados'},
+                {'nombre': 'Almacenista', 'descripcion': 'Grupo de almacenistas, tienen permisos para hacer operaciones en el inventario'},
     ],
     'USUARIOS': [
                 {
-                    'nombre': 'admin@bookspot.com',
+                    'nombre': 'admin nombre',
                     'telefono': '555-0100',
                     'direccion': 'Calle Admin, 123',
-                    'correo_electronico': 'admin@ejemplo.com',
-                    'grupo': 'admin',
+                    'correo_electronico': 'admin@bookspot.com',
+                    'grupo': 'Admin',
                     'password': 'admin'
                 },
                 {
-                    'nombre': 'vendedor@bookspot.com',
+                    'nombre': 'vendedor nombre',
                     'telefono': '555-0200',
                     'direccion': 'Calle Vendedor, 456',
-                    'correo_electronico': 'vendedor@ejemplo.com',
-                    'grupo': 'vendedor',
+                    'correo_electronico': 'vendedor@bookspot.com',
+                    'grupo': 'Vendedor',
                     'password': 'vendedor'
                 },
                 {
-                    'nombre': 'almacenista@bookspot.com',
+                    'nombre': 'almacenista nombre',
                     'telefono': '555-0300',
                     'direccion': 'Calle Almacenista, 789',
-                    'correo_electronico': 'almacenista@ejemplo.com',
-                    'grupo': 'almacenista',
+                    'correo_electronico': 'almacenista@bookspot.com',
+                    'grupo': 'Almacenista',
                     'password': 'almacenista'
                 }
     ],
@@ -67,7 +63,6 @@ def populate_initial_data(sender, **kwargs):
         if not Libro.objects.exists():
             _create_books()
             _create_tipos_movimiento()
-            _create_metodos_pago()
             _create_grupos()
             _create_usuarios()
 
@@ -78,10 +73,6 @@ def _create_books():
 def _create_tipos_movimiento():
     for tipo_data in INITIAL_DATA['TIPOS_MOVIMIENTO']:
         TipoMovimiento.objects.get_or_create(**tipo_data)
-
-def _create_metodos_pago():
-    for metodo_data in INITIAL_DATA['METODOS_PAGO']:
-        MetodoPago.objects.get_or_create(**metodo_data)
 
 def _create_grupos():
     for grupo_data in INITIAL_DATA['GRUPOS']:

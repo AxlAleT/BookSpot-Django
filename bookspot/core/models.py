@@ -8,40 +8,6 @@ from simple_history.models import HistoricalRecords
 from django.core.validators import MinValueValidator
 
 
-class MetodoPago(models.Model):
-    """Payment method model"""
-
-    nombre = models.CharField(
-        _('Nombre del método de pago'),
-        max_length=100,  # Adjusted length for flexibility
-        unique=True,
-        null=False
-    )
-    descripcion = models.TextField(
-        _('Descripción'),
-        blank=True,  # Optional field
-        null=True
-    )
-
-    history = HistoricalRecords()  # Enable historical tracking
-
-    class Meta:
-        verbose_name = _('Método de pago')
-        verbose_name_plural = _('Métodos de pago')
-        ordering = ['nombre']  # Default ordering by name
-
-    def __str__(self):
-        return self.nombre  # String representation of the model
-
-    def to_dict(self):
-        """Convert the object to a dictionary for easy serialization"""
-        return {
-            'id_metodo_pago': self.id,
-            'nombre': self.nombre,
-            'descripcion': self.descripcion
-        }
-
-
 class CustomUserManager(BaseUserManager):
     """Custom user manager for email-based authentication"""
 
@@ -261,51 +227,6 @@ class DetallesApartado(models.Model):
             })
 
 
-class Venta(models.Model):
-    """Sales transaction model"""
-
-    fecha = models.DateTimeField(
-        _('Fecha de venta'),
-        auto_now_add=True,
-        db_index=True
-    )
-    usuario = models.ForeignKey(
-        Usuario,
-        on_delete=models.PROTECT,
-        related_name='ventas',
-        verbose_name=_('Usuario')
-    )
-    monto_total = models.DecimalField(
-        _('Monto total'),
-        max_digits=10,
-        decimal_places=2,
-        validators=[MinValueValidator(0.01)]
-    )
-    metodo_pago = models.ForeignKey(
-        'MetodoPago',
-        on_delete=models.PROTECT,
-        related_name='ventas',
-        verbose_name=_('Método de pago')
-    )
-
-    history = HistoricalRecords()
-
-    class Meta:
-        verbose_name = _('Venta')
-        verbose_name_plural = _('Ventas')
-        ordering = ['-fecha']
-        permissions = [
-            ('cancel_venta', _('Puede cancelar ventas')),
-        ]
-
-    def __str__(self):
-        return f"Venta #{self.id} - {self.usuario.nombre}"
-
-    def clean(self):
-        if self.monto_total <= 0:
-            raise ValidationError({'monto_total': _('El monto total debe ser positivo')})
-
-
 class TipoMovimiento(models.Model):
     """Type of inventory movement (e.g., sale, purchase, adjustment)"""
     nombre = models.CharField(max_length=50, unique=True)
@@ -330,12 +251,39 @@ class TipoMovimiento(models.Model):
 
 class Movimiento(models.Model):
     """Main inventory movement record"""
+    METODO_PAGO_CHOICES = [
+        ('TDC', 'Tarjeta de Crédito'),
+        ('TDB', 'Tarjeta de Débito'),
+        ('EFE', 'Efectivo'),
+    ]
+
     tipo_movimiento = models.ForeignKey(
         TipoMovimiento,
         on_delete=models.PROTECT,
         related_name='movimientos'
     )
+    usuario = models.ForeignKey(
+        'Usuario',
+        on_delete=models.PROTECT,
+        related_name='movimientos',
+        verbose_name=_('Usuario que realizó el movimiento')
+    )
     fecha_hora = models.DateTimeField(default=timezone.now)
+    monto_total = models.DecimalField(
+        _('Monto total'),
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(0.01)]
+    )
+    metodo_pago = models.CharField(
+        _('Método de pago'),
+        max_length=3,
+        choices=METODO_PAGO_CHOICES,
+        null=True,
+        blank=True
+    )
     history = HistoricalRecords()
 
     class Meta:
@@ -346,15 +294,17 @@ class Movimiento(models.Model):
     def __str__(self):
         return f"{self.tipo_movimiento} - {self.fecha_hora.strftime('%Y-%m-%d %H:%M')}"
 
-    def clean(self):
-        if self.fecha_hora > timezone.now():
-            raise ValidationError("La fecha no puede ser en el futuro")
-
     def to_dict(self):
         return {
             'id': self.id,
             'tipo_movimiento': self.tipo_movimiento.to_dict(),
-            'fecha_hora': self.fecha_hora.isoformat()
+            'usuario': {
+                'id': self.usuario.id,
+                'nombre': self.usuario.nombre
+            },
+            'fecha_hora': self.fecha_hora.isoformat(),
+            'monto_total': float(self.monto_total) if self.monto_total else None,
+            'metodo_pago': self.metodo_pago
         }
 
 

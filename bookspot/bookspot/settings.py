@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'db_init',
     'user_auth',
     'inventory',
+    'sales',
 ]
 
 MIDDLEWARE = [

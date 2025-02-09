@@ -1,0 +1,90 @@
+
+
+.product-input-group {
+    display: flex;
+    align-items: center;
+}
+
+.payment-group {
+    display: flex;
+    align-items: center;
+}
+
+.sale-table th,
+.sale-table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.sale-table th:nth-child(1),
+.sale-table td:nth-child(1) {
+    width: 120px;
+}
+
+.sale-table th:nth-child(3),
+.sale-table td:nth-child(3) {
+    width: 150px;
+}
+
+.sale-table th:nth-child(4),
+.sale-table td:nth-child(4) {
+    width: 120px;
+}
+
+.sale-table th:nth-child(5),
+.sale-table td:nth-child(5) {
+    width: 140px;
+}
+
+.quantity-input {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.apartado-iframe {
+    width: 100%;
+    height: calc(100vh - 120px);
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+#complete-sale {
+    min-width: 180px;
+}
+
+.selection-bar {
+    margin-left: 30px;
+}
+
+.selection-button {
+    padding: 8px 25px;
+    border-radius: 20px;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+.total-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-top: 2px solid #dee2e6;
+    margin-top: -1px;
+}
+
+.total-label {
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 15px;
+}
+
+.total-amount {
+    font-size: 20px;
+    color: #28a745;
+    font-weight: bold;
+    min-width: 100px;
+    text-align: right;
+}

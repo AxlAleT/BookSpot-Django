@@ -1,25 +1,20 @@
-body {
+html, body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    display: flex;
+    padding: 0;
     height: 100%;
-    background-color: #f0f0f0;
 }
 
-.btn {
-    background-color: orange;
-    color: white;
-    border: none;
-    padding: 10px 10px;
-    margin: 5px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
+body {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
 }
 
-.btn:hover {
-    background-color: #ffcc80;
+.main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    order: 2;
 }
 
 .sidebar {
@@ -32,7 +27,32 @@ body {
     border-radius: 0 10px 10px 0;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
+    min-height: 100vh;
+    order: 1;
 }
+
+.btn {
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn:hover {
+    background-color: #ffcc80;
+}
+
+
+
 
 .profile {
     text-align: center;
@@ -61,12 +81,12 @@ body {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-weight: bold;
     color: white;
-    margin: 0; /* Remove margin to avoid extra spacing */
+    margin: 0;
 }
 
 .logout-button {
-    width: 100%; /* Makes it adapt to parent width */
-    max-width: 230px; /* Ensures a maximum size */
+    width: 100%;
+    max-width: 230px;
     height: 50px;
     background-color: #fffADA;
     border: 1px solid #ccc;
@@ -78,7 +98,6 @@ body {
 .logout-button:hover {
     background-color: #f0f0f0;
 }
-
 
 .profile-picture img {
     width: 100%;
@@ -95,7 +114,7 @@ body {
 .menu li {
     display: flex;
     align-items: center;
-    padding: 3px 3px;
+    padding: 3px;
     width: 100%;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -105,14 +124,9 @@ body {
     font-size: 18px;
 }
 
-.menu li:hover {
+.menu li:hover,
+.menu li.active {
     background-color: #ffcc80;
-}
-
-.menu li img.icon {
-    width: 36px;
-    height: 36px;
-    margin-right: 20px;
 }
 
 .menu li i {
@@ -124,19 +138,9 @@ body {
     margin-right: 10px;
 }
 
-.menu li.active {
-    background-color: #ffcc80;
-}
-
 .menu li span {
     flex: 1;
     text-align: left;
     font-size: 26px;
 }
 
-
-.main-content {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-}

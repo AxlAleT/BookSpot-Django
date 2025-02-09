@@ -4,11 +4,19 @@ document.addEventListener("DOMContentLoaded", function() {
     const searchInput = document.getElementById("search-input");
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
+    function toggleActiveClass(elements, activeElement) {
+        elements.forEach(element => element.classList.remove("active"));
+        activeElement.classList.add("active");
+    }
+
+    function toggleDisplay(element, displayStyle) {
+        element.style.display = displayStyle;
+    }
+
     // Toggle active view when selection buttons are clicked
     selectionButtons.forEach(button => {
         button.addEventListener("click", function() {
-            selectionButtons.forEach(btn => btn.classList.remove("active"));
-            this.classList.add("active");
+            toggleActiveClass(selectionButtons, this);
             views.forEach(view => view.classList.remove("active"));
             const viewId = this.getAttribute("data-view");
             const viewToShow = document.getElementById(viewId);
@@ -22,22 +30,21 @@ document.addEventListener("DOMContentLoaded", function() {
     const menuItems = document.querySelectorAll(".menu li");
     menuItems.forEach(item => {
         item.addEventListener("click", function() {
-            menuItems.forEach(i => i.classList.remove("active"));
-            this.classList.add("active");
+            toggleActiveClass(menuItems, this);
         });
     });
 
     // Show/Hide add book form
     window.mostrarFormularioAgregar = function() {
-        document.getElementById("add-book-form").style.display = "block";
+        toggleDisplay(document.getElementById("add-book-form"), "block");
     };
 
     window.cerrarFormularioAgregar = function() {
-        document.getElementById("add-book-form").style.display = "none";
+        toggleDisplay(document.getElementById("add-book-form"), "none");
     };
 
     window.cerrarFormularioEditar = function() {
-        document.getElementById("edit-book-modal").style.display = "none";
+        toggleDisplay(document.getElementById("edit-book-modal"), "none");
     };
 
     // Handle submission of the add-book form
@@ -45,7 +52,6 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
         const titulo = document.getElementById("titulo").value;
         const precio = document.getElementById("precio").value;
-        // Map the input "cantidad" to the API field "cantidad_disponible"
         const cantidad_disponible = document.getElementById("cantidad").value;
 
         fetch("/inventory/libros/", {
@@ -53,7 +59,6 @@ document.addEventListener("DOMContentLoaded", function() {
             headers: {
                 "Content-Type": "application/json",
                 "X-CSRFToken": csrftoken
-
             },
             credentials: 'include',
             body: JSON.stringify({ titulo, precio, cantidad_disponible })
@@ -65,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function() {
             } else {
                 alert("Libro agregado exitosamente.");
                 actualizarInventario();
-                document.getElementById("add-book-form").style.display = "none";
+                toggleDisplay(document.getElementById("add-book-form"), "none");
                 document.getElementById("form-agregar-libro").reset();
             }
         })
@@ -79,7 +84,6 @@ document.addEventListener("DOMContentLoaded", function() {
         let url = "/inventory/libros/";
         const searchTerm = searchInput.value.trim();
         if (searchTerm !== "") {
-            // The API supports searching using the 'search' query parameter
             url += `?search=${encodeURIComponent(searchTerm)}`;
         }
         fetch(url)
@@ -92,7 +96,6 @@ document.addEventListener("DOMContentLoaded", function() {
             const tableBody = document.getElementById("inventory-table-body");
             tableBody.innerHTML = "";
 
-            // Assuming the API returns an array of books (adjust if using pagination)
             data.forEach(libro => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
@@ -101,8 +104,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     <td>${libro.precio}</td>
                     <td>${libro.cantidad_disponible}</td>
                     <td>
-                        <button class="btn edit" data-id="${libro.id}">Editar</button>
-                        <button class="btn delete" data-id="${libro.id}">Eliminar</button>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button class="btn edit" data-id="${libro.id}">Editar</button>
+                            <button class="btn delete" data-id="${libro.id}">Eliminar</button>
+                        </div>
                     </td>
                 `;
                 tableBody.appendChild(row);
@@ -123,7 +128,6 @@ document.addEventListener("DOMContentLoaded", function() {
         editButtons.forEach(button => {
             button.addEventListener("click", function() {
                 const libroId = this.getAttribute("data-id");
-                // Retrieve details of the specific book using its ID
                 fetch(`/inventory/libros/${libroId}/`)
                 .then(response => response.json())
                 .then(data => {
@@ -150,15 +154,13 @@ document.addEventListener("DOMContentLoaded", function() {
     // Open and populate the edit modal with book details
     function abrirFormularioEditar(libro) {
         const modal = document.getElementById("edit-book-modal");
-        modal.style.display = "block";
+        toggleDisplay(modal, "block");
 
         document.getElementById("edit-id").value = libro.id;
-        // Update input IDs to match API field names (no accented characters)
         document.getElementById("edit-titulo").value = libro.titulo;
         document.getElementById("edit-precio").value = libro.precio;
         document.getElementById("edit-cantidad").value = libro.cantidad_disponible;
 
-        // When the edit form is submitted, send a PUT request to update the book
         document.getElementById("form-editar-libro").addEventListener("submit", function(event) {
             event.preventDefault();
 
@@ -183,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 } else {
                     alert("Libro editado exitosamente.");
                     actualizarInventario();
-                    modal.style.display = "none";
+                    toggleDisplay(modal, "none");
                     document.getElementById("form-editar-libro").reset();
                 }
             })
@@ -221,9 +223,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // When the search input changes, refresh the inventory list
-    searchInput.addEventListener("input", function() {
-        actualizarInventario();
-    });
+    searchInput.addEventListener("input", actualizarInventario);
 
     // Initial load of inventory data
     actualizarInventario();

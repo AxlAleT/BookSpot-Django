@@ -1,6 +1,6 @@
 async function logout() {
   if (confirm("¿Desea cerrar sesión?")) {
-      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      const csrftoken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
         try {
             const response = await fetch('/api/logout/', {
